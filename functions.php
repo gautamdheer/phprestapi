@@ -2,6 +2,9 @@
 require_once 'config.php';
 require_once 'vendor/autoload.php'; // Include the Composer autoloader for firebase/php-jwt
  
+use Firebase\JWT\JWT;
+
+
 function connect() {
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
     if ($conn->connect_error) {
@@ -35,7 +38,7 @@ function getAllUsers() {
 
 function getUser($id) {
     $conn = connect();
-    $result = $conn->query("SELECT id, username, email FROM users WHERE user_id = $id");
+    $result = $conn->query("SELECT user_id, username, email FROM users WHERE user_id = $id");
     $user = $result->fetch_assoc();
     $conn->close();
     return $user;

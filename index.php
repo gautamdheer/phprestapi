@@ -1,9 +1,5 @@
 <?php
-require_once 'vendor/autoload.php';
-
-// Use the Firebase\JWT\JWT namespace
-use Firebase\JWT\JWT;
-
+ 
 require_once 'functions.php';
 
 header('Content-Type: application/json');
