@@ -93,6 +93,23 @@ function registerUser($username, $email, $password) {
 
 }
 
+function loginUser($username,$password){
+    $conn = connect();
+    $result = $conn->query("SELECT id, username, password FROM users WHERE username='$username'");
+    $user = $result->fetch_assoc();
+    $conn->close();
+
+    if($user && password_verify($password, $user['password'])){
+        // generate and store secure token
+        // $token = bin2hex(random_bytes(32));
+        $token = generateToken($user['user_id']);
+        updateToken($user['user_id'], $token);
+        return ['token'=>$token];    
+    }
+    else{
+        return['error'=>'Invalid username and password'];
+    }
+}
 
  
 function updateUser($id, $data) {
@@ -119,5 +136,6 @@ function getUserIdFromToken($token) {
     $conn->close();
     return $id;
 }
+
 
 ?>

@@ -17,10 +17,19 @@ switch ($method) {
         break;
     case 'POST':
         $data = json_decode(file_get_contents('php://input'), true);
+        if(isset($data['register'])){
             $username = $data['username'];
             $email = $data['email'];
             $password = $data['password'];
             echo json_encode(registerUser($username, $email, $password));
+        } elseif(isset($data['login'])){
+            $username = $data['username'];
+            $password = $data['password'];
+            echo json_encode(loginUser($username, $password));
+        }else{
+            echo json_encode(['error'=>'Invalid request']);
+        }
+           
         break;
     case 'PUT':
         $data = json_decode(file_get_contents('php://input'), true);
