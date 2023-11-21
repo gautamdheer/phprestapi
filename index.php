@@ -1,4 +1,9 @@
 <?php
+require_once 'vendor/autoload.php';
+
+// Use the Firebase\JWT\JWT namespace
+use Firebase\JWT\JWT;
+
 require_once 'functions.php';
 
 header('Content-Type: application/json');
@@ -12,10 +17,14 @@ switch ($method) {
         } else {
             echo json_encode(getAllUsers());
         }
+    
         break;
     case 'POST':
         $data = json_decode(file_get_contents('php://input'), true);
-        echo json_encode(createUser($data));
+            $username = $data['username'];
+            $email = $data['email'];
+            $password = $data['password'];
+            echo json_encode(registerUser($username, $email, $password));
         break;
     case 'PUT':
         $data = json_decode(file_get_contents('php://input'), true);
