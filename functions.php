@@ -89,13 +89,14 @@ function registerUser($username, $email, $password) {
      updateToken($userId, $token);
 
     $conn->close();
+
     return ['token' => $token, 'user' => getUser($userId)];
 
 }
 
 function loginUser($username,$password){
     $conn = connect();
-    $result = $conn->query("SELECT id, username, password FROM users WHERE username='$username'");
+    $result = $conn->query("SELECT user_id, username, password FROM users WHERE username='$username'");
     $user = $result->fetch_assoc();
     $conn->close();
 
@@ -132,7 +133,7 @@ function deleteUser($id) {
 function getUserIdFromToken($token) {
     $conn = connect();
     $result = $conn->query("SELECT user_id FROM users WHERE token = '$token'");
-    $id = $result->fetch_assoc()['id'];
+    $id = $result->fetch_assoc()['user_id'];
     $conn->close();
     return $id;
 }
